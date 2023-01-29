@@ -1,8 +1,21 @@
-import Head from "next/head";
-import { Col, Container, Row, Table } from "react-bootstrap";
+import { useUsers } from "@/api/userApi";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Head from "next/head";
+import { Container, Table } from "react-bootstrap";
 
 export default function Home() {
+  const userResponse = useUsers();
+
+  // Copilot suggestion to convert date to human readable format
+  const convertToHumanBirthDate = (birthDate: string) => {
+    const date = new Date(birthDate);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
   return (
     <>
       <Head>
@@ -28,29 +41,20 @@ export default function Home() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Birth Date</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+              {userResponse.data?.map((user, index) => (
+                <tr key={user.id}>
+                <td>{index + 1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{convertToHumanBirthDate(user.birthDate)}</td>
               </tr>
-              <tr>
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td colSpan={2}>Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
+              ))}
             </tbody>
           </Table>
         </Container>
