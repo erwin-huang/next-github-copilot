@@ -1,63 +1,85 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 
-type User = {
-  id: number;
-  name: string;
-  dirthDate: string;
-  email: string;
-};
-
+/**
+ * User dummy data
+ */
 const users: User[] = [
   {
     id: 1,
     name: "John Doe",
-    dirthDate: "1990-01-01",
+    birthDate: "1990-01-01",
     email: "johndoe@example.com",
   },
   {
     id: 2,
     name: "Sally Doe",
-    dirthDate: "1991-01-01",
+    birthDate: "1991-01-01",
     email: "sallydoe@sample.com",
   },
   {
     id: 3,
     name: "Doe Mary",
-    dirthDate: "1992-01-01",
+    birthDate: "1992-01-01",
     email: "doejohn@sample.com",
   },
   {
     id: 4,
     name: "Sam Park",
-    dirthDate: "1993-01-01",
+    birthDate: "1993-01-01",
     email: "sam@sample.com",
   },
   {
     id: 5,
     name: "Scott Lee",
-    dirthDate: "1994-01-01",
+    birthDate: "1994-01-01",
     email: "scottlee@sample.com",
   },
 ];
 
+/**
+ * Method to find user by id
+ * @param id 
+ * @returns 
+ */
 function findUserById(id: number) {
   return users.find((user) => user.id === id);
 }
 
+/**
+ * Find user by email
+ * @param email email address
+ * @returns User
+ */
 function findUserByEmail(email: string) {
   return users.find((user) => user.email === email);
 }
 
+/**
+ * Validate email address
+ * @param email email address
+ * @returns User
+ */
 function validateEmail(email: string) {
   const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
 
+/**
+ * Find users by name
+ * @param name Name of the user
+ * @returns Array of users
+ */
 function findUserByName(name: string) {
   return users.filter((user) => user.name.includes(name));
 }
 
+/**
+ * Handler for users
+ * @param req Request
+ * @param res Response
+ * @returns array of users or user by id or email or name
+ */
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
